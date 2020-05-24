@@ -11,7 +11,7 @@ resource "aws_instance" "webserv" {
   user_data = <<-EOF
                 #!/bin/bash
                 echo "Hello, World" > index.html
-                nohup busybox httpd -f -p 8080 &
+                nohup busybox httpd -f -p ${var.web-srv-prt} &
                 EOF
 
 
@@ -21,8 +21,8 @@ resource "aws_security_group" "sg-web" {
     name = "web01_sg"
 
     ingress {
-        from_port = 8080
-        to_port = 8080
+        from_port = var.web-srv-prt
+        to_port = var.web-srv-prt
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -30,4 +30,15 @@ resource "aws_security_group" "sg-web" {
     tags = {
         Name = "security grp"
     }
+}
+
+variable "web-srv-prt" {
+    description = "the HTTP port for web services"
+    type = number
+    default = 8080
+}
+
+output "public_ip" {
+    value           = aws_instance.webserv.public_ip
+    description     = "The public ip of the webserver"
 }
