@@ -6,4 +6,12 @@ resource "aws_instance" "webserv" {
         Name = "web-app",
         Environment = "test"
     }
+
+    user_data = <<- EOF
+                #!/bin/bash
+                echo "Hello, World" > index.html
+                nohup busybox httpd -f -p 8080 &
+                EOF
+
+ 
 }
