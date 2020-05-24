@@ -1,5 +1,5 @@
 resource "aws_launch_configuration" "lconf_web" {
-    image_id    =   "ami-0323c3dd2da7fb37d"
+    image_id    =   "ami-01d025118d8e760db"
     instance_type = "t2.micro"
     security_groups = [aws_security_group.sg-web.id]
 
