@@ -1,6 +1,7 @@
 resource "aws_instance" "webserv" {
   ami           = "ami-0323c3dd2da7fb37d"
   instance_type = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.sg-web.id]
 
   tags = {
     Name        = "web-app",
@@ -17,7 +18,7 @@ resource "aws_instance" "webserv" {
 }
 
 resource "aws_security_group" "sg-web" {
-    name = "sg-web01"
+    name = "web01_sg"
 
     ingress {
         from_port = 8080
