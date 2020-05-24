@@ -1,3 +1,7 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+
+# terraform provider
+*.terraform
+
