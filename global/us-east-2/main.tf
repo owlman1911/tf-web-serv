@@ -10,9 +10,10 @@ resource "aws_instance" "webserv" {
 
   user_data = <<-EOF
                 #!/bin/bash
-                yum install httpd -y
-                echo "Hello, World" > index.html
-                systemctl start httpd
+                sudo yum install httpd busybox -y
+                sudo service httpd start
+                sudo su
+                echo "hello, world OK" > /var/www/html/index.html
                 nohup busybox httpd -fp 8080 &
                 EOF
 
