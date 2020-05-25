@@ -10,11 +10,16 @@ resource "aws_instance" "webserv" {
 
   user_data = <<-EOF
                 #!/bin/bash
-                sudo yum install httpd busybox -y
+                sudo yum update -y
+                sudo yum install -y httpd busybox 
+                sudo sed -i 's/Listen 80/Listen 8080/g' /etc/httpd/conf/httpd.conf 
+                sudo usermod -a -G apache ec2-user
+                sudo chown -R ec2-user:apache /var/www
+                sudo chmod 2775 /var/www
+                sudo find /var/www -type d -exec sudo chmod 2775 {} \;
+                sudo find /var/www -type f -exec sudo chmod 0664 {} \;
+                sudo echo "hello, world OK" > /var/www/html/index.html
                 sudo service httpd start
-                sudo su
-                echo "hello, world OK" > /var/www/html/index.html
-                nohup busybox httpd -fp 8080 &
                 EOF
 
 
