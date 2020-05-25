@@ -36,6 +36,13 @@ resource "aws_security_group" "sg-web" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
+    ingress {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["71.105.226.132/32"]
+    }
+
     tags = {
         Name = "security grp"
     }
